@@ -12,27 +12,42 @@ export const fetchOutletIdentifier = (
   const polygonsFeatureCollection = JSON.parse(
     readFileSync(path.join(__dirname, '../../../../points.geo.json'), 'utf-8')
   ); // feature collection of points
+  const coordinatesToPolygonPropertiesHash = new Map();
+  const coordinatesToPointPropertiesHash = new Map();
+
   const polygonsCollection = turf.polygons(
     polygonsFeatureCollection['features']
       .filter((feature: Feature) => feature['geometry']['type'] == 'Polygon')
-      .map(
-        (feature: { geometry: { coordinates: number[] } }) =>
-          feature['geometry']['coordinates']
-      )
+      .map((feature: { geometry: { coordinates: number[] } }) => {
+        coordinatesToPolygonPropertiesHash.set(
+          feature['geometry']['coordinates'],
+          (feature as any)['properties']
+        );
+        return feature['geometry']['coordinates'];
+      })
   );
   const polygonPointsCollection = turf.points(
     polygonsFeatureCollection['features']
       .filter((feature: Feature) => feature['geometry']['type'] == 'Point')
-      .map(
-        (feature: { geometry: { coordinates: number[] } }) =>
-          feature['geometry']['coordinates']
-      )
+      .map((feature: { geometry: { coordinates: number[] } }) => {
+        coordinatesToPointPropertiesHash.set(
+          feature['geometry']['coordinates'],
+          (feature as any)['properties']
+        );
+        return feature['geometry']['coordinates'];
+      })
   );
   const polygonsArray = polygonsCollection.features.map((feature) =>
-    turf.polygon(feature.geometry.coordinates)
+    turf.polygon(
+      feature.geometry.coordinates,
+      coordinatesToPolygonPropertiesHash.get(feature.geometry.coordinates)
+    )
   );
   const pointsArray = polygonPointsCollection.features.map((feature) =>
-    turf.point(feature.geometry.coordinates)
+    turf.point(
+      feature.geometry.coordinates,
+      coordinatesToPointPropertiesHash.get(feature.geometry.coordinates)
+    )
   );
 
   if (!request.query.x || !request.query.y) {
@@ -66,7 +81,7 @@ export const fetchOutletIdentifier = (
           deliverablePointsInPolygon.length === 0
             ? null
             : deliverablePointsInPolygon[0],
-        error: 'Input coordinates were not provided!',
+        error: null,
       },
     });
   } else {
