@@ -72,8 +72,8 @@ export const fetchOutletIdentifier = (
           error: 'Could not find any such location. Please try again',
         });
       }
-      const inputXCoordinate = locationData?.data?.data?.longitude;
-      const inputYCoordinate = locationData?.data?.data?.latitude;
+      const inputXCoordinate = locationData?.data?.data[0].longitude;
+      const inputYCoordinate = locationData?.data?.data[0].latitude;
 
       const coveringPolygons = polygonsArray.filter((polygon) =>
         turf.booleanPointInPolygon(
