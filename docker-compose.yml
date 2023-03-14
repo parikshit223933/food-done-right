@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: food_network
+
+services:
+  fdr-backend:
+    build: .
+    command: 'node dist/server.js'
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
