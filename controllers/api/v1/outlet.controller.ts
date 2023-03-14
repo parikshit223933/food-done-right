@@ -88,7 +88,6 @@ export const fetchOutletIdentifier = (
           turf.booleanPointInPolygon(point, coveringPolygons[0])
         );
         return response.json({
-          coverage: {
             success: true,
             coveredByPolygon: coveredByPolygon,
             coveringPolygon: coveringPolygons[0],
@@ -97,17 +96,14 @@ export const fetchOutletIdentifier = (
                 ? null
                 : deliverablePointsInPolygon[0],
             error: null,
-          },
         });
       } else {
         return response.json({
-          coverage: {
             success: true,
             coveredByPolygon: coveredByPolygon,
             coveringPolygon: null,
             deliverablePointInPolygon: null,
             error: null,
-          },
         });
       }
     })
