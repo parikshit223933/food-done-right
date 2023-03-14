@@ -64,7 +64,7 @@ export const fetchOutletIdentifier = (
         !locationData?.data?.data[0].latitude
       ) {
         console.log(locationData.data.data);
-        return response.json({
+        return response.status(200).json({
           success: false,
           coveredByPolygon: null,
           coveringPolygon: null,
@@ -74,6 +74,7 @@ export const fetchOutletIdentifier = (
       }
       const inputXCoordinate = locationData?.data?.data[0].longitude;
       const inputYCoordinate = locationData?.data?.data[0].latitude;
+      console.log([inputXCoordinate, inputYCoordinate]);
 
       const coveringPolygons = polygonsArray.filter((polygon) =>
         turf.booleanPointInPolygon(
@@ -87,29 +88,29 @@ export const fetchOutletIdentifier = (
         const deliverablePointsInPolygon = pointsArray.filter((point) =>
           turf.booleanPointInPolygon(point, coveringPolygons[0])
         );
-        return response.json({
-            success: true,
-            coveredByPolygon: coveredByPolygon,
-            coveringPolygon: coveringPolygons[0],
-            deliverablePointInPolygon:
-              deliverablePointsInPolygon.length === 0
-                ? null
-                : deliverablePointsInPolygon[0],
-            error: null,
+        return response.status(200).json({
+          success: true,
+          coveredByPolygon: coveredByPolygon,
+          coveringPolygon: coveringPolygons[0],
+          deliverablePointInPolygon:
+            deliverablePointsInPolygon.length === 0
+              ? null
+              : deliverablePointsInPolygon[0],
+          error: null,
         });
       } else {
-        return response.json({
-            success: true,
-            coveredByPolygon: coveredByPolygon,
-            coveringPolygon: null,
-            deliverablePointInPolygon: null,
-            error: null,
+        return response.status(200).json({
+          success: true,
+          coveredByPolygon: coveredByPolygon,
+          coveringPolygon: null,
+          deliverablePointInPolygon: null,
+          error: null,
         });
       }
     })
     .catch((error) => {
       console.log(error);
-      return response.json({
+      return response.status(200).json({
         success: false,
         coveredByPolygon: null,
         coveringPolygon: null,
