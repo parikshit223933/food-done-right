@@ -8,7 +8,7 @@ networks:
 services:
   fdr-backend:
     build: .
-    command: 'node dist/server.js'
+    command: 'npm run start'
     stdin_open: true
     tty: true
     ports:
