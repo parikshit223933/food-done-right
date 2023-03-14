@@ -5,4 +5,4 @@ syncs:
   food-done-right-sync:
     src: '.'
     sync_strategy: 'native_osx'
-    sync_excludes: ['.git', '*.log', '.idea', 'node_modules', 'dist']
+    sync_excludes: ['.git', '*.log', '.idea']

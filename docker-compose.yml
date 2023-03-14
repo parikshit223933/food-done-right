@@ -15,8 +15,10 @@ services:
       - "8000:8000"
     environment:
       - PORT=8000
+      - NODE_ENV=development
     volumes:
       - food-done-right-sync:/food-done-right:nocopy
+    container_name: food-done-right
 
 volumes:
   food-done-right-sync:
