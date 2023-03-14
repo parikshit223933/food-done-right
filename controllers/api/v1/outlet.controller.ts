@@ -45,8 +45,8 @@ export const fetchOutletIdentifier = (
     });
   }
 
-  const inputXCoordinate = parseInt(request.query.x.toString(), 10);
-  const inputYCoordinate = parseInt(request.query.y.toString(), 10);
+  const inputXCoordinate = parseFloat(request.query.x.toString());
+  const inputYCoordinate = parseFloat(request.query.y.toString());
 
   const coveringPolygons = polygonsArray.filter((polygon) =>
     turf.booleanPointInPolygon([inputXCoordinate, inputYCoordinate], polygon)
