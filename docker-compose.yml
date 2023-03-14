@@ -8,10 +8,16 @@ networks:
 services:
   fdr-backend:
     build: .
-    command: 'npm run start'
+    command: 'npm run dev'
     stdin_open: true
     tty: true
     ports:
       - "8000:8000"
     environment:
       - PORT=8000
+    volumes:
+      - food-done-right-sync:/food-done-right:nocopy
+
+volumes:
+  food-done-right-sync:
+    external: true
